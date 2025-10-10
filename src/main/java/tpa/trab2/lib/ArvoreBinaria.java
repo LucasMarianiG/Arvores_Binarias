@@ -17,20 +17,45 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
     protected Comparator<T> comparador; 
   
     public ArvoreBinaria(Comparator<T> comp) {
-        comparador = comp;
+        this.comparador = comp;
     }
     
     @Override
     public void adicionar(T novoValor) {
         Noh<T> no = new Noh<>(novoValor);
-        if(raiz == null){
-            raiz = no;
+        int comp = 0;
 
-        }else{
-            comparador.compare(raiz.getValor(), novoValor);
+        if (this.raiz == null) {
+            this.raiz = no;
+        } else {
+            Noh<T> ant = null, atual = this.raiz;
 
+            while (atual != null) {
+                comp = comparador.compare(atual.getValor(), novoValor);
+                ant = atual;
+
+                if (comp < 0) {
+                    atual = atual.getFilhoEsquerda();
+                } else
+                if (comp > 0) {
+                    atual = atual.getFilhoDireita();
+                } else {
+                    // Atribuindo null nos dois para controle
+                    // Caso ant seja null, não vamos inserir o novo nó árvore
+                    ant = null;
+                    atual = null;
+                }
+            }
+
+            // Se existe um nó anterior, então definimos o seu novo filho
+            if (ant != null) {
+                if (comp < 0) {
+                    ant.setFilhoEsquerda(no);
+                } else {
+                    ant.setFilhoDireita(no);
+                }
+            }
         }
-
     }
 
     @Override
