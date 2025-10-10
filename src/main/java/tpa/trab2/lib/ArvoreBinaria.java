@@ -19,7 +19,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
     public ArvoreBinaria(Comparator<T> comp) {
         this.comparador = comp;
     }
-    
+
     @Override
     public void adicionar(T novoValor) {
         Noh<T> no = new Noh<>(novoValor);
@@ -31,7 +31,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             Noh<T> ant = null, atual = this.raiz;
 
             while (atual != null) {
-                comp = comparador.compare(atual.getValor(), novoValor);
+                comp = this.comparador.compare(atual.getValor(), novoValor);
                 ant = atual;
 
                 if (comp < 0) {
@@ -66,7 +66,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             Noh<T> atual = this.raiz;
 
             while (atual != null) {
-                comp = comparador.compare(atual.getValor(), valor);
+                comp = this.comparador.compare(atual.getValor(), valor);
 
                 if (comp < 0) {
                     atual = atual.getFilhoEsquerda();
@@ -84,8 +84,22 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
     }
 
    @Override
-    public T pesquisar(T valor, Comparator comparador) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public T pesquisar(T valor, Comparator<T> comparador) {
+       return this.pesquisaRecursiva(this.raiz, valor, comparador) ? valor : null;
+    }
+
+    private boolean pesquisaRecursiva (Noh<T> atual, T valor, Comparator<T> comparador) {
+        if (atual == null) {
+            return false;
+        }
+
+        int comp = comparador.compare(atual.getValor(), valor);
+
+        if (comp == 0) {
+            return true;
+        } else {
+            return this.pesquisaRecursiva(atual.getFilhoEsquerda(), valor, comparador) || this.pesquisaRecursiva(atual.getFilhoDireita(), valor, comparador);
+        }
     }
 
     @Override
@@ -95,10 +109,15 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public int altura() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.raiz == null) {
+            return -1;
+        } else if (this.raiz.getFilhoDireita() == null && this.raiz.getFilhoEsquerda() == null) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
-       
-    
+
     @Override
     public int quantidadeNos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -106,12 +125,11 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public String caminharEmNivel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public String caminharEmOrdem() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
     }
-        
 }
