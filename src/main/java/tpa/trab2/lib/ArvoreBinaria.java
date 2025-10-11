@@ -35,10 +35,10 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
                 ant = atual;
 
                 if (comp < 0) {
-                    atual = atual.getFilhoEsquerda();
+                    atual = atual.getFolhaEsquerda();
                 } else
                 if (comp > 0) {
-                    atual = atual.getFilhoDireita();
+                    atual = atual.getFolhaDireita();
                 } else {
                     // Atribuindo null nos dois para controle
                     // Caso ant seja null, não vamos inserir o novo nó árvore
@@ -50,9 +50,9 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             // Se existe um nó anterior, então definimos o seu novo filho
             if (ant != null) {
                 if (comp < 0) {
-                    ant.setFilhoEsquerda(no);
+                    ant.setFolhaEsquerda(no);
                 } else {
-                    ant.setFilhoDireita(no);
+                    ant.setFolhaDireita(no);
                 }
             }
         }
@@ -69,10 +69,10 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
                 comp = this.comparador.compare(atual.getValor(), valor);
 
                 if (comp < 0) {
-                    atual = atual.getFilhoEsquerda();
+                    atual = atual.getFolhaEsquerda();
                 } else
                 if (comp > 0) {
-                    atual = atual.getFilhoDireita();
+                    atual = atual.getFolhaDireita();
                 } else {
                     return atual.getValor();
                 }
@@ -98,7 +98,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         if (comp == 0) {
             return true;
         } else {
-            return this.pesquisaRecursiva(atual.getFilhoEsquerda(), valor, comparador) || this.pesquisaRecursiva(atual.getFilhoDireita(), valor, comparador);
+            return this.pesquisaRecursiva(atual.getFolhaEsquerda(), valor, comparador) || this.pesquisaRecursiva(atual.getFolhaDireita(), valor, comparador);
         }
     }
 
@@ -111,7 +111,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
     public int altura() {
         if (this.raiz == null) {
             return -1;
-        } else if (this.raiz.getFilhoDireita() == null && this.raiz.getFilhoEsquerda() == null) {
+        } else if (this.raiz.getFolhaDireita() == null && this.raiz.getFolhaEsquerda() == null) {
             return 0;
         } else {
             return 1;

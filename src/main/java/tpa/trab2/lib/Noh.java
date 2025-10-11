@@ -5,64 +5,49 @@
  */
 package tpa.trab2.lib;
 
-/**
- *
- * @author victoriocarvalho
- */
 public class Noh<T> {
-    
-    private T valor;
-    private Noh<T> filhoDireita;
-    private Noh<T> filhoEsquerda;
+    private final T valor;
+    private Noh<T> folhaDireita;
+    private Noh<T> folhaEsquerda;
 
-    
     public Noh(T valor){
         this.valor = valor;
-        this.filhoDireita = null;
-        this.filhoEsquerda = null;
+        this.folhaDireita = null;
+        this.folhaEsquerda = null;
     }
-    
+
     /**
      * @return the valor
      */
     public T getValor() {
-        return valor;
+        return this.valor;
     }
 
     /**
-     * @param valor the valor to set
+     * @return the folhaDireita
      */
-    public void setValor(T valor) {
-        this.valor = valor;
+    public Noh<T> getFolhaDireita() {
+        return this.folhaDireita;
     }
 
     /**
-     * @return the filhoDireita
+     * @param folhaDireita the folhaDireita to set
      */
-    public Noh<T> getFilhoDireita() {
-        return filhoDireita;
+    public void setFolhaDireita(Noh<T> folhaDireita) {
+        this.folhaDireita = folhaDireita;
     }
 
     /**
-     * @param filhoDireita the filhoDireita to set
+     * @return the folhaEsquerda
      */
-    public void setFilhoDireita(Noh<T> filhoDireita) {
-        this.filhoDireita = filhoDireita;
+    public Noh<T> getFolhaEsquerda() {
+        return this.folhaEsquerda;
     }
 
     /**
-     * @return the filhoEsquerda
+     * @param folhaEsquerda the folhaEsquerda to set
      */
-    public Noh<T> getFilhoEsquerda() {
-        return filhoEsquerda;
+    public void setFolhaEsquerda(Noh<T> folhaEsquerda) {
+        this.folhaEsquerda = folhaEsquerda;
     }
-
-    /**
-     * @param filhoEsquerda the filhoEsquerda to set
-     */
-    public void setFilhoEsquerda(Noh<T> filhoEsquerda) {
-        this.filhoEsquerda = filhoEsquerda;
-    }
-    
-    
 }
