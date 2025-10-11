@@ -17,6 +17,13 @@ public class Noh<T> {
     }
 
     /**
+     * @return the valor like string
+     */
+    public String toString() {
+        return valor.toString();
+    }
+
+    /**
      * @return the valor
      */
     public T getValor() {

@@ -49,7 +49,7 @@ public interface IArvoreBinaria<T> {
 
     /**
      * Método que retorna a altura da árvore
-     * @return Retorna a altura da árvore. Árvores só com raiz tem altura zero(0). Se raiz for nula retorne -1. 
+     * @return Retorna a altura da árvore. Árvores só com raiz tem altura zero(0). Se raiz for nula retorne -1.
      */
     public int altura();
 
