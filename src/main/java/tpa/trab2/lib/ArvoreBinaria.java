@@ -6,6 +6,8 @@
 package tpa.trab2.lib;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -185,11 +187,78 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public String caminharEmNivel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Caso da Árvore Vazia
+        if (raiz == null) {
+            return "[]";
+        }
+
+        // Um StringBuilder para construir a String final
+        StringBuilder resultado = new StringBuilder();
+        resultado.append("[");
+
+        // Inicializando a Fila
+        // O caminhamento em nível usa uma Fila (Queue)
+        Queue<Noh<T>> fila = new LinkedList<>();
+        fila.add(raiz);
+
+        // Processanao a fila
+        while (!fila.isEmpty()) {
+            // Remove o nó do início da fila (o primeiro a ser inserido)
+            Noh<T> noAtual = fila.remove();
+
+            // Adiciona o valor do nó ao resultado
+            // Adiciona o separador se não for o primeiro elemento
+            if (resultado.length() > 1) { // Verifica se já adicionou "["
+                resultado.append(" \n ");
+            }
+            resultado.append(noAtual.getValor().toString());
+
+            // Adicionar os filhos do nó atual na fila
+            // Primeiro o filho esquerdo, depois o direito, para manter a ordem de nível
+            if (noAtual.getFolhaEsquerda() != null) {
+                fila.add(noAtual.getFolhaEsquerda());
+            }
+
+            if (noAtual.getFolhaDireita() != null) {
+                fila.add(noAtual.getFolhaDireita());
+            }
+        }
+
+        // Finalizar a String
+        resultado.append("]");
+        return resultado.toString();
     }
 
     @Override
     public String caminharEmOrdem() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
+        // Um StringBuilder para coletar os valores e gerenciar o formato
+        StringBuilder resultado = new StringBuilder();
+
+        // Chamando o método auxiliar recursivo
+        caminharEmOrdemRecursivo(this.raiz, resultado);
+
+        // Formata a string final conforme solicitado: [valores]
+        return "[" + resultado.toString().trim() + "]";
+    }
+
+    /**
+     * Método auxiliar recursivo para realizar o caminhamento Em Ordem.
+     * @param no O nó atual a ser processado.
+     * @param sb O StringBuilder para acumular o resultado.
+     */
+    private void caminharEmOrdemRecursivo(Noh<T> no, StringBuilder sb) {
+        // Caso o nó seja nulo, pare aqui e retorna
+        if (no == null) {
+            return;
+        }
+
+        // Percorrendo a subárvore Esquerda
+        caminharEmOrdemRecursivo(no.getFolhaEsquerda(), sb);
+
+        // Adicionando o valor do nó atual seguido do separador " \n "
+        sb.append(no.getValor().toString()).append(" \n ");
+
+        // Percorrendo a subárvore Direita
+        caminharEmOrdemRecursivo(no.getFolhaDireita(), sb);
     }
 }
