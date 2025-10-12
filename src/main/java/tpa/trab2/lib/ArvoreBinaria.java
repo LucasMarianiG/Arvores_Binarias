@@ -16,8 +16,9 @@ import java.util.Queue;
 public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
     
     protected Noh<T> raiz = null;
-    protected Comparator<T> comparador; 
-  
+    protected Comparator<T> comparador;
+    private T valorRemovido;
+
     public ArvoreBinaria(Comparator<T> comp) {
         this.comparador = comp;
     }
@@ -119,21 +120,85 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         if (comp == 0) {
             return true;
         } else {
-            // Caso a comparação seja diferente de 0
-            // Precisamos continuar a pesquisa
-            // 1) Realizamos a mesma pesquisa passando a folha da esquerda
-            // -- Se ainda não encontrarmos
-            // 2) Realizamos a mesma pesquisa passando a folha da diretira
-            // -- No fim teremos vários "false || false || false || ..."
-            // -- Se o valor pesquisado estiver na árvore teremos um "... || true || ..."
-            // -- E como um "ou" lógico, neste caso, retornará true que encontrou, ou false que não encontrou, caso contrário.
             return this.pesquisaRecursiva(no.getFolhaEsquerda(), valor, comparador) || this.pesquisaRecursiva(no.getFolhaDireita(), valor, comparador);
         }
     }
 
     @Override
     public T remover(T valor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Zerando o valor removido antes de iniciar a busca/remoção
+        this.valorRemovido = null;
+
+        // Inicia a remoção recursiva a partir da raiz
+        this.raiz = removerNoRecursivo(this.raiz, valor);
+
+        // Retorna o valor que foi armazenado durante o processo de remoção
+        return this.valorRemovido;
+    }
+
+    /**
+     * Método auxiliar recursivo que busca e remove o nó
+     * @param no O nó atual a ser inspecionado.
+     * @param valor O valor a ser buscado.
+     * @return O novo nó raiz da subárvore após a remoção.
+     */
+    private Noh<T> removerNoRecursivo(Noh<T> no, T valor) {
+        // CASO BASE: Nó não encontrado (árvore ou subárvore vazia)
+        if (no == null) {
+            return null; // Retorna nulo, o nó pai manterá seu filho como nulo
+        }
+
+        int comp = this.comparador.compare(no.getValor(), valor);
+
+        // Percorre a árvore para encontrar o valor a ser removido
+        if (comp < 0) {
+            // Valor a ser removido está na subárvore esquerda
+            no.setFolhaEsquerda(removerNoRecursivo(no.getFolhaEsquerda(), valor));
+            return no;
+        } else
+        if (comp > 0) {
+            // Valor a ser removido está na subárvore direita
+            no.setFolhaDireita(removerNoRecursivo(no.getFolhaDireita(), valor));
+            return no;
+        } else {
+            // O nó foi encontrado (comp == 0)
+            // Armazena o valor do nó encontrado antes de removê-lo
+            this.valorRemovido = no.getValor();
+
+            // CASO 1: Nó folha(sem folhas filhas) ou com apenas 1 folha filha
+            if (no.getFolhaEsquerda() == null) {
+                return no.getFolhaEsquerda(); // Promove o filho direito (pode ser null)
+            } else
+            if (no.getFolhaDireita() == null) {
+                return no.getFolhaDireita(); // Promove o filho esquerdo
+            }
+
+            // CASO 2: Nó com 2 Filhos
+            // Encontrando como sucessor o menor nó da subárvore da direita
+            Noh<T> sucessor = this.encontrarMenorNo(no.getFolhaDireita());
+
+            // Copiando o valor do sucessor para o nó atual (sobrescrevendo o valor a ser "removido")
+            no.setValor(sucessor.getValor());
+
+            // Removendo o sucessor pq ele foi promovido na árvore(logo agora ele está duplicado)
+            // A remoção do sucessor cai no CASO 1, pois ele nunca terá filho esquerdo
+            no.setFolhaDireita(this.removerNoRecursivo(no.getFolhaDireita(), sucessor.getValor()));
+
+            return no;
+        }
+    }
+
+    /**
+     * Método auxiliar para encontrar o menor nó em uma subárvore
+     * @param no O nó raiz da subárvore da direita.
+     * @return O menor nó da subárvore.
+     */
+    private Noh<T> encontrarMenorNo(Noh<T> no) {
+        while (no.getFolhaEsquerda() != null) {
+            no = no.getFolhaEsquerda();
+        }
+
+        return no;
     }
 
     @Override
