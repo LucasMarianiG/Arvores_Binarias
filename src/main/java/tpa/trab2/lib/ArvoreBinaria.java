@@ -34,7 +34,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             Noh<T> ant = null, atual = this.raiz;
 
             while (atual != null) {
-                comp = this.comparador.compare(atual.getValor(), novoValor);
+                comp = this.comparador.compare(novoValor, atual.getValor());
                 ant = atual;
 
                 if (comp < 0) {
@@ -71,7 +71,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             // Caminhando na árvore até que cheguemos ao final da árvore
             while (atual != null) {
                 // Usando o comparador usado na indexação da árvore
-                comp = this.comparador.compare(atual.getValor(), valor);
+                comp = this.comparador.compare(valor, atual.getValor());
 
                 // Caso a comparação seja negativa
                 // O nó atual é atualizado para a folha esquerda do nó atual
@@ -148,7 +148,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
             return null; // Retorna nulo, o nó pai manterá seu filho como nulo
         }
 
-        int comp = this.comparador.compare(no.getValor(), valor);
+        int comp = this.comparador.compare(valor, no.getValor());
 
         // Percorre a árvore para encontrar o valor a ser removido
         if (comp < 0) {
