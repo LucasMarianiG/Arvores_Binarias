@@ -88,7 +88,6 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
                     return atual.getValor();
                 }
             }
-
         }
 
         // Returna null caso a raiz seja nula(não existe a árvore)
@@ -130,7 +129,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         this.valorRemovido = null;
 
         // Inicia a remoção recursiva a partir da raiz
-        this.raiz = removerNoRecursivo(this.raiz, valor);
+        this.raiz = this.removerNoRecursivo(this.raiz, valor);
 
         // Retorna o valor que foi armazenado durante o processo de remoção
         return this.valorRemovido;
@@ -203,7 +202,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public int altura() {
-        return calculaAlturaRecursiva(this.raiz);
+        return this.calculaAlturaRecursiva(this.raiz);
     }
 
     /**
@@ -219,9 +218,9 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         }
 
         // 1. Calcula a altura da subárvore esquerda
-        int alturaEsquerda = calculaAlturaRecursiva(no.getFolhaEsquerda());
+        int alturaEsquerda = this.calculaAlturaRecursiva(no.getFolhaEsquerda());
         // 2. Calcula a altura da subárvore direita
-        int alturaDireita = calculaAlturaRecursiva(no.getFolhaDireita());
+        int alturaDireita = this.calculaAlturaRecursiva(no.getFolhaDireita());
 
         // A altura da árvore (ou subárvore) atual é 1 (o próprio nó)
         // mais o máximo entre as alturas das subárvores esquerda e direita.
@@ -230,7 +229,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
     @Override
     public int quantidadeNos() {
-        return contaNosRecursivo(this.raiz);
+        return this.contaNosRecursivo(this.raiz);
     }
 
     /**
@@ -247,7 +246,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         // 1 (para o nó atual)
         // + contagem de nós na subárvore esquerda
         // + contagem de nós na subárvore direita.
-        return 1 + contaNosRecursivo(no.getFolhaEsquerda()) + contaNosRecursivo(no.getFolhaDireita());
+        return 1 + this.contaNosRecursivo(no.getFolhaEsquerda()) + this.contaNosRecursivo(no.getFolhaDireita());
     }
 
     @Override
@@ -300,7 +299,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         StringBuilder resultado = new StringBuilder();
 
         // Chamando o método auxiliar recursivo
-        caminharEmOrdemRecursivo(this.raiz, resultado);
+        this.caminharEmOrdemRecursivo(this.raiz, resultado);
 
         // Formata a string final conforme solicitado: [valores]
         return "[" + resultado.toString().trim() + "]";
@@ -318,12 +317,12 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
         }
 
         // Percorrendo a subárvore Esquerda
-        caminharEmOrdemRecursivo(no.getFolhaEsquerda(), sb);
+        this.caminharEmOrdemRecursivo(no.getFolhaEsquerda(), sb);
 
         // Adicionando o valor do nó atual seguido do separador " \n "
         sb.append(no.getValor().toString()).append(" \n ");
 
         // Percorrendo a subárvore Direita
-        caminharEmOrdemRecursivo(no.getFolhaDireita(), sb);
+        this.caminharEmOrdemRecursivo(no.getFolhaDireita(), sb);
     }
 }
