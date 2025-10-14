@@ -167,24 +167,24 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T> {
 
             // CASO 1: Nó folha(sem folhas filhas) ou com apenas 1 folha filha
             if (no.getFolhaEsquerda() == null) {
-                return no.getFolhaEsquerda(); // Promove o filho direito (pode ser null)
+                return no.getFolhaDireita(); // Promove o filho direito (pode ser null)
             } else
             if (no.getFolhaDireita() == null) {
-                return no.getFolhaDireita(); // Promove o filho esquerdo
+                return no.getFolhaEsquerda(); // Promove o filho esquerdo
+            } else {
+                // CASO 2: Nó com 2 Filhos
+                // Encontrando como sucessor o menor nó da subárvore da direita
+                Noh<T> sucessor = this.encontrarMenorNo(no.getFolhaDireita());
+
+                // Copiando o valor do sucessor para o nó atual (sobrescrevendo o valor a ser "removido")
+                no.setValor(sucessor.getValor());
+
+                // Removendo o sucessor pq ele foi promovido na árvore(logo agora ele está duplicado)
+                // A remoção do sucessor cai no CASO 1, pois ele nunca terá filho esquerdo
+                no.setFolhaDireita(this.removerNoRecursivo(no.getFolhaDireita(), sucessor.getValor()));
+
+                return no;
             }
-
-            // CASO 2: Nó com 2 Filhos
-            // Encontrando como sucessor o menor nó da subárvore da direita
-            Noh<T> sucessor = this.encontrarMenorNo(no.getFolhaDireita());
-
-            // Copiando o valor do sucessor para o nó atual (sobrescrevendo o valor a ser "removido")
-            no.setValor(sucessor.getValor());
-
-            // Removendo o sucessor pq ele foi promovido na árvore(logo agora ele está duplicado)
-            // A remoção do sucessor cai no CASO 1, pois ele nunca terá filho esquerdo
-            no.setFolhaDireita(this.removerNoRecursivo(no.getFolhaDireita(), sucessor.getValor()));
-
-            return no;
         }
     }
 
