@@ -56,12 +56,14 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         Noh<T> t2 = (x != null) ? x.getFolhaDireita() : null;
 
         // rotação
-        x.setFolhaDireita(y);
+        if (x != null) {
+            x.setFolhaDireita(y);
+            atualizaAltura(x);
+        }
         y.setFolhaEsquerda(t2);
 
         // atualiza alturas (sempre filho antes do pai)
         atualizaAltura(y);
-        atualizaAltura(x);
         return x;
     }
 
@@ -70,12 +72,14 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T> {
         Noh<T> t2 = (x != null) ? x.getFolhaEsquerda() : null;
 
         // rotação
-        x.setFolhaEsquerda(y);
+        if (x != null) {
+            x.setFolhaEsquerda(y);
+            atualizaAltura(x);
+        }
         y.setFolhaDireita(t2);
 
         // atualiza alturas
         atualizaAltura(y);
-        atualizaAltura(x);
         return x;
     }
 
